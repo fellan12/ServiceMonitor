@@ -3,6 +3,9 @@ package kry.vertx;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.HttpClientResponse;
+import io.vertx.core.Handler;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -103,6 +106,16 @@ public class MainVerticle extends AbstractVerticle {
 
   private void getAll(RoutingContext routingContext) {
     System.out.println("GET ALL");
+
+    HttpClient httpClient = vertx.createHttpClient();
+
+    httpClient.getNow(80, "www.google.se", "/", new Handler<HttpClientResponse>() {
+      @Override
+      public void handle(HttpClientResponse httpClientResponse) {
+          System.out.println("Response status code");
+          System.out.println(httpClientResponse.statusCode());
+      }
+    });
     // Write the HTTP response
     // The response is in JSON using the utf-8 encoding
     // We returns the list of bottles

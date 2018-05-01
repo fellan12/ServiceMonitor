@@ -12,7 +12,11 @@ public class Service {
   public Service(String name, String url) {
     this.id = UUID.randomUUID().toString();
     this.name = name;
-    this.URL = url.split("://")[1].split("/")[0];
+    this.URL = url;
+    if(url.contains("://")) this.URL = url.split("://")[1];
+
+
+    if(URL.contains("/")) this.URL = URL.split("/")[0];
   }
 
   public String getId() {

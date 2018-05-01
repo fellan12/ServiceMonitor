@@ -1,5 +1,6 @@
 kry/vertx/ServiceStorage.class
 kry/vertx/Service.class
+kry/vertx/MonitorVerticle.class
 kry/vertx/StatusUpdate.class
 kry/vertx/MainVerticle.class
 kry/vertx/StatusUpdate$1.class

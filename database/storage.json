@@ -1,0 +1,15 @@
+{
+  "services" : [ {
+    "id" : "d392eaa8-4e8c-49df-adc5-d81b7c34f6cf",
+    "name" : "KRY",
+    "url" : "www.kry.se",
+    "status" : null,
+    "lastChecked" : null
+  }, {
+    "id" : "ce8931e8-8743-41ff-a2fb-0312b2051460",
+    "name" : "Google",
+    "url" : "www.google.se",
+    "status" : null,
+    "lastChecked" : null
+  } ]
+}

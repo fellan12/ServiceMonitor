@@ -1,5 +1,4 @@
 {
   "http.port" : 8082,
-  "storage.path" : "/database",
-  "storaga.json" : "/database/storage.json"
+  "storage.path" : "database/storage.json"
 }

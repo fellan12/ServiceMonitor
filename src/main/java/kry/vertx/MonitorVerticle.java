@@ -90,18 +90,21 @@ public class MonitorVerticle extends AbstractVerticle {
   private void getAll(RoutingContext routingContext) {
     System.out.println("GET ALL");
     List<Service> servs = store.getAllServices();
-
+    // System.out.println(servs);
     JsonArray array = new JsonArray();
 		for (Service s : servs) {
-			array.add(Json.encodePrettily(s));
+			array.add(s.toJson());
 		}
 
-    System.out.println(array);
+    JsonObject json = new JsonObject();
+    json.put("services", array);
+
+    System.out.println(json);
 
     routingContext.response()
         .setStatusCode(200) // Ok
         .putHeader("content-type", "application/json; charset=utf-8")
-        .end(Json.encodePrettily(services.values()));
+        .end(Json.encodePrettily(json));
   }
 
   private void createExampleData() {

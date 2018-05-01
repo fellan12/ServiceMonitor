@@ -17,7 +17,7 @@
 
 		function remove(id) {
 			$.ajax({
-		        method: "Remove",
+		        method: "DELETE",
 		        url: "/service/" + id
 		    }).done(function () {
 		        load();

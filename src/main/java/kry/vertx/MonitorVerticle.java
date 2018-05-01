@@ -40,7 +40,6 @@ public class MonitorVerticle extends AbstractVerticle {
     router.post("/service").handler(this::add);
     router.delete("/service/:id").handler(this::delete);
 
-    System.out.println(config());
     // Create the HTTP server and pass the "accept" method to the request handler.
     vertx
         .createHttpServer()
@@ -77,7 +76,7 @@ public class MonitorVerticle extends AbstractVerticle {
   }
 
   private void delete(RoutingContext routingContext) {
-    System.out.println("DELETE ONE");
+    System.out.println("DELETE");
     String id = routingContext.request().getParam("id");
     if (id == null) {
       routingContext.response().setStatusCode(400).end(); //Bad Request
@@ -99,7 +98,7 @@ public class MonitorVerticle extends AbstractVerticle {
     JsonObject json = new JsonObject();
     json.put("services", array);
 
-    System.out.println(json);
+    // System.out.println(json);
 
     routingContext.response()
         .setStatusCode(200) // Ok

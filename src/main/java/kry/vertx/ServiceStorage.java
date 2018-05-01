@@ -15,7 +15,6 @@ class ServiceStorage {
 
   public ServiceStorage(String path){
     this.storagePath = Paths.get(path);
-    System.out.println(storagePath);
   }
 
   public JsonObject getStorage(){

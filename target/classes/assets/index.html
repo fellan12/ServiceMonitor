@@ -17,7 +17,7 @@
 
 		function remove(id) {
 			$.ajax({
-		        method: "Remove",
+		        method: "DELETE",
 		        url: "/service/" + id
 		    }).done(function () {
 		        load();
@@ -98,27 +98,27 @@
 	    <div class="page-header">
 	        <div class="row">
 	            <div class="col-md-12">
-			<div class="add-service">
-	                    <h2>Add New Service</h2>
-			                <p>Name: <input id="input-name" name="Name"></p>
-	                    <p>Url:  <input id="input-url" name="Url"></p>
-			    <button class="btn" id="add-btn" data-action="add">Add</button>
-		        </div>
-	                <h1>Services</h1>
-	                <table class="table table-striped">
-	                    <thead>
-	                    <tr>
-	                        <th>#</th>
-	                        <th>Name</th>
-	                        <th>Url</th>
-	                        <th>Status</th>
-	                        <th>Action</th>
-	                    </tr>
-	                    </thead>
-	                    <tbody id="content">
-	                    <!-- filled using Ajax -->
-	                    </tbody>
-	                </table>
+                	<div class="add-service">
+                      <h2>Add New Service</h2>
+                      <p>Name: <input id="input-name" name="Name"></p>
+                      <p>Url:  <input id="input-url" name="Url"></p>
+                	    <button class="btn" id="add-btn" data-action="add">Add</button>
+                  </div>
+                  <h1>Services</h1>
+                  <table class="table table-striped">
+                      <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Url</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                      </tr>
+                      </thead>
+                      <tbody id="content">
+                      <!-- filled using Ajax -->
+                      </tbody>
+                  </table>
 	            </div>
 	        </div>
 	    </div>

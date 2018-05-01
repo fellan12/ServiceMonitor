@@ -12,11 +12,6 @@ public class MainVerticle extends AbstractVerticle {
   @Override
   public void start(Future<Void> fut) {
 
-    System.out.println(config());
-    System.out.println(config().getString("storage.path"));
-
-
-
     //Set deployment options
     DeploymentOptions options = new DeploymentOptions().setConfig(config());
 

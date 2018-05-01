@@ -31,8 +31,8 @@ public class StatusUpdate extends AbstractVerticle {
     httpClient.getNow(80, service.getURL(), "/", new Handler<HttpClientResponse>() {
       @Override
       public void handle(HttpClientResponse httpClientResponse) {
-          System.out.println("Response status code");
-          System.out.println(httpClientResponse.statusCode());
+          // System.out.println("Response status code");
+          // System.out.println(httpClientResponse.statusCode());
       }
     });
 	}

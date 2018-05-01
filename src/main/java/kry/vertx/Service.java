@@ -24,7 +24,6 @@ public class Service {
 		service.id = json.getString("id");
 		service.status = json.getString("status");
 		service.lastChecked = json.getString("lastChecked");
-    System.out.println(service);
 		return service;
 	}
 

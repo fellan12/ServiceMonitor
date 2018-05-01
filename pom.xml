@@ -92,6 +92,18 @@
                 <version>${vertx.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-client</artifactId>
+                <version>3.5.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-config</artifactId>
+                <version>3.5.1</version>
+            </dependency>
+
     </dependencies>
 
 </project>

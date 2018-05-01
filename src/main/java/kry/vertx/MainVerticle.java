@@ -22,6 +22,7 @@ import java.util.Map;
 public class MainVerticle extends AbstractVerticle {
 
   private Map<String, Service> services = new HashMap<>();
+  private ServiceStorage store;
 
   /**
    * This method is called when the verticle is deployed. It creates a HTTP server and registers a simple request
@@ -36,26 +37,16 @@ public class MainVerticle extends AbstractVerticle {
   @Override
   public void start(Future<Void> fut) {
 
-    createExampleData();
+    // createExampleData();
 
     // Create a router object.
     Router router = Router.router(vertx);
 
-    // Bind "/" to our hello message.
-    router.route("/").handler(routingContext -> {
-      HttpServerResponse response = routingContext.response();
-      response
-          .putHeader("content-type", "text/html")
-          .end("<h1>Hello from my first Vert.x 3 application</h1>");
-    });
-
-    router.route("/assets/*").handler(StaticHandler.create("assets"));
-
+    router.route("/*").handler(StaticHandler.create("assets"));
     router.get("/service").handler(this::getAll);
     router.route("/service*").handler(BodyHandler.create());
     router.post("/service").handler(this::add);
     router.delete("/service/:id").handler(this::delete);
-
 
     // Create the HTTP server and pass the "accept" method to the request handler.
     vertx
@@ -73,6 +64,9 @@ public class MainVerticle extends AbstractVerticle {
               }
             }
         );
+
+    store = new ServiceStorage();
+    vertx.deployVerticle(new StatusUpdate(store));
   }
 
   private void add(RoutingContext routingContext) {
@@ -85,9 +79,9 @@ public class MainVerticle extends AbstractVerticle {
     // Add it to the backend map
     services.put(serv.getId(), serv);
 
-    // Return the created whisky as JSON
+    // Return the created service as JSON
     routingContext.response()
-        .setStatusCode(201)
+        .setStatusCode(201) //Created
         .putHeader("content-type", "application/json; charset=utf-8")
         .end(Json.encodePrettily(serv));
   }
@@ -96,30 +90,21 @@ public class MainVerticle extends AbstractVerticle {
     System.out.println("DELETE ONE");
     String id = routingContext.request().getParam("id");
     if (id == null) {
-
-      routingContext.response().setStatusCode(400).end();
+      routingContext.response().setStatusCode(400).end(); //Bad Request
     } else {
       services.remove(id);
+      routingContext.response().setStatusCode(204).end(); //No content
     }
-    routingContext.response().setStatusCode(204).end();
   }
 
   private void getAll(RoutingContext routingContext) {
     System.out.println("GET ALL");
 
-    HttpClient httpClient = vertx.createHttpClient();
-
-    httpClient.getNow(80, "www.google.se", "/", new Handler<HttpClientResponse>() {
-      @Override
-      public void handle(HttpClientResponse httpClientResponse) {
-          System.out.println("Response status code");
-          System.out.println(httpClientResponse.statusCode());
-      }
-    });
     // Write the HTTP response
     // The response is in JSON using the utf-8 encoding
     // We returns the list of bottles
     routingContext.response()
+        .setStatusCode(200) // Ok
         .putHeader("content-type", "application/json; charset=utf-8")
         .end(Json.encodePrettily(services.values()));
   }

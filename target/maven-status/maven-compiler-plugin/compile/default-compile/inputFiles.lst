@@ -1,2 +1,4 @@
 /home/felix/Documents/ServiceMonitor/src/main/java/kry/vertx/MainVerticle.java
+/home/felix/Documents/ServiceMonitor/src/main/java/kry/vertx/ServiceStorage.java
 /home/felix/Documents/ServiceMonitor/src/main/java/kry/vertx/Service.java
+/home/felix/Documents/ServiceMonitor/src/main/java/kry/vertx/StatusUpdate.java

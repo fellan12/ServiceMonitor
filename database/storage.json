@@ -1,21 +1,27 @@
 {
   "services" : [ {
-    "id" : "d604c498-e9da-454f-8a15-a10e1452d559",
-    "name" : "google",
-    "url" : "www.google.se",
-    "status" : 200,
-    "lastChecked" : 1525294848237
+    "id" : "1bea6435-ebae-4459-88e2-7097f8018731",
+    "name" : "asd",
+    "url" : "http://www.aftonbladet.se",
+    "status" : "FAIL",
+    "lastChecked" : 1525295687361
   }, {
-    "id" : "d604c498-e9da-454f-8a15-a10e145g5353",
+    "id" : "a3cce266-398f-4e72-adc6-af666d7fff6e",
+    "name" : "Google",
+    "url" : "https://www.google.se",
+    "status" : "OK",
+    "lastChecked" : 1525295687392
+  }, {
+    "id" : "8b0d8535-73ba-4224-a868-3cd3123b89d2",
+    "name" : "Inbox",
+    "url" : "https://inbox.google.com",
+    "status" : "FAIL",
+    "lastChecked" : 1525295687404
+  }, {
+    "id" : "fec2ca04-62d2-4d0d-8130-deacd4fcad59",
     "name" : "KRY",
-    "url" : "www.kry.se",
-    "status" : 301,
-    "lastChecked" : 1525294848329
-  }, {
-    "id" : "a64ef663-8b44-44de-bf72-803366f2cd1b",
-    "name" : "test",
-    "url" : "http://start.vertx.io/",
-    "status" : 200,
-    "lastChecked" : 1525294848431
+    "url" : "https://www.kry.se/",
+    "status" : "FAIL",
+    "lastChecked" : 1525295687458
   } ]
 }

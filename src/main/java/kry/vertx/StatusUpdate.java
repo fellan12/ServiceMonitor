@@ -31,9 +31,11 @@ public class StatusUpdate extends AbstractVerticle {
     httpClient.getNow(80, service.getHost(), service.getURI(), new Handler<HttpClientResponse>() {
       @Override
       public void handle(HttpClientResponse httpClientResponse) {
-					service.setStatus(httpClientResponse.statusCode());
-					service.setLastChecked(System.currentTimeMillis());
-					store.updateService(service);
+				System.out.println(service.getURL());
+				System.out.println("STATUSCODE: " +httpClientResponse.statusCode());
+				service.setStatus(httpClientResponse.statusCode() == 200 ? "OK" : "FAIL");
+				service.setLastChecked(System.currentTimeMillis());
+				store.updateService(service);
       }
     });
 	}

@@ -37,6 +37,7 @@ class ServiceStorage {
 	}
 
   public List<Service> getAllServices() {
+    System.out.println("GET ALL FROM STORAGE");
     List<Service> services = new ArrayList<>();
 		JsonArray array = getStorage().getJsonArray("services");
 		for (int i = 0; i < array.size(); i++) {

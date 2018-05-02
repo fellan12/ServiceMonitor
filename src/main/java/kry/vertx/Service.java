@@ -8,19 +8,20 @@ public class Service {
   private String id;
   private String name;
   private String URL;
-  private int status;
+  private String status;
   private long lastChecked;
 
   public Service(String name, String url) {
     this.id = UUID.randomUUID().toString();
     this.name = name;
     this.URL = url;
+    this.status = "INCOMING";
   }
 
   public static Service fromJson(JsonObject json) {
 		Service service = new Service(json.getString("name"), json.getString("url"));
 		service.id = json.getString("id");
-		service.status = json.getInteger("status");
+		service.status = json.getString("status");
 		service.lastChecked = json.getLong("lastChecked");
 		return service;
 	}
@@ -67,7 +68,7 @@ public class Service {
 		return uri;
   }
 
-  public int getStatus(){
+  public String getStatus(){
     return status;
   }
 
@@ -79,7 +80,7 @@ public class Service {
     this.id = id;
   }
 
-  public void setStatus(int status){
+  public void setStatus(String status){
     this.status = status;
   }
 

@@ -17,7 +17,7 @@ class ServiceStorage {
     this.storagePath = Paths.get(path);
   }
 
-  public JsonObject getStorage(){
+  private JsonObject getStorage(){
     String json = "";
 		try {
 			json = new String(Files.readAllBytes(storagePath));
@@ -27,17 +27,51 @@ class ServiceStorage {
 		return new JsonObject(json);
   }
 
+  private void writeToStorage(JsonObject json) {
+		byte[] bytes = json.encodePrettily().getBytes();
+		try {
+			Files.write(storagePath, bytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
   public List<Service> getAllServices() {
+    System.out.println("GETTING SERVICES FROM STORAGE");
     List<Service> services = new ArrayList<>();
-  		JsonArray a = getStorage().getJsonArray("services");
-  		for (int i = 0; i < a.size(); i++) {
-  			JsonObject json = a.getJsonObject(i);
-  			services.add(Service.fromJson(json));
-  		}
+		JsonArray array = getStorage().getJsonArray("services");
+		for (int i = 0; i < array.size(); i++) {
+			services.add(Service.fromJson(array.getJsonObject(i)));
+		}
+    System.out.println("GOT ALL SERVICES FROM STORAGE");
   	return services;
-}
+  }
 
-  public void updateStatus(String id, String status){
+  public void removeService(String id){
+    System.out.println("REMOVE SERVICE: " + id);
+    JsonArray array = getStorage().getJsonArray("services");
+		for (int i = 0; i < array.size(); i++) {
+			Service service = Service.fromJson(array.getJsonObject(i));
+      System.out.println(service.getId());
+			if (service.getId().equals(id)) {
+				array.remove(i);
+        writeToStorage(new JsonObject().put("services", array));
+				break;
+			}
+		}
+  }
 
+  public void addService(Service serv){
+    System.out.println("ADD SERVICE: " + serv.getURL());
+    JsonArray array = getStorage().getJsonArray("services");
+    array.add(serv.toJson());
+    writeToStorage(new JsonObject().put("services", array));
+  }
+
+  public void updateService(Service service){
+    removeService(service.getId());
+    JsonArray array = getStorage().getJsonArray("services");
+    array.add(service.toJson());
+    writeToStorage(new JsonObject().put("services", array));
   }
 }

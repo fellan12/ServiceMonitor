@@ -1,15 +1,21 @@
 {
   "services" : [ {
-    "id" : "d392eaa8-4e8c-49df-adc5-d81b7c34f6cf",
+    "id" : "d604c498-e9da-454f-8a15-a10e1452d559",
+    "name" : "google",
+    "url" : "www.google.se",
+    "status" : 200,
+    "lastChecked" : 1525293224064
+  }, {
+    "id" : "d604c498-e9da-454f-8a15-a10e145g5353",
     "name" : "KRY",
     "url" : "www.kry.se",
-    "status" : null,
-    "lastChecked" : null
+    "status" : 301,
+    "lastChecked" : 1525293224077
   }, {
-    "id" : "ce8931e8-8743-41ff-a2fb-0312b2051460",
-    "name" : "Google",
-    "url" : "www.google.se",
-    "status" : null,
-    "lastChecked" : null
+    "id" : "8913aa64-9363-4c5e-b42b-5402828c15a7",
+    "name" : "vertx.io",
+    "url" : "www.vertx.io",
+    "status" : 301,
+    "lastChecked" : 1525293224188
   } ]
 }

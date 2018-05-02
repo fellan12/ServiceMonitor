@@ -65,8 +65,8 @@ public class MonitorVerticle extends AbstractVerticle {
     final Service serv = new Service(routingContext.getBodyAsJson().getString("name"),
                                       routingContext.getBodyAsJson().getString("url"));
 
-    // Add it to the backend map
-    services.put(serv.getId(), serv);
+    // Add it to the backend storage
+    store.addService(serv);
 
     // Return the created service as JSON
     routingContext.response()
@@ -78,10 +78,11 @@ public class MonitorVerticle extends AbstractVerticle {
   private void delete(RoutingContext routingContext) {
     System.out.println("DELETE");
     String id = routingContext.request().getParam("id");
+
     if (id == null) {
       routingContext.response().setStatusCode(400).end(); //Bad Request
     } else {
-      services.remove(id);
+      store.removeService(id);
       routingContext.response().setStatusCode(204).end(); //No content
     }
   }
@@ -89,7 +90,9 @@ public class MonitorVerticle extends AbstractVerticle {
   private void getAll(RoutingContext routingContext) {
     System.out.println("GET ALL");
     List<Service> servs = store.getAllServices();
-    // System.out.println(servs);
+
+    System.out.println(servs);
+
     JsonArray array = new JsonArray();
 		for (Service s : servs) {
 			array.add(s.toJson());
@@ -98,7 +101,7 @@ public class MonitorVerticle extends AbstractVerticle {
     JsonObject json = new JsonObject();
     json.put("services", array);
 
-    // System.out.println(json);
+    System.out.println(json);
 
     routingContext.response()
         .setStatusCode(200) // Ok

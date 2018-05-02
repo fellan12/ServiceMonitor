@@ -8,8 +8,8 @@ public class Service {
   private String id;
   private String name;
   private String URL;
-  private String status = "";
-  private String lastChecked = "";
+  private int status;
+  private long lastChecked;
 
   public Service(String name, String url) {
     this.id = UUID.randomUUID().toString();
@@ -20,10 +20,11 @@ public class Service {
   }
 
   public static Service fromJson(JsonObject json) {
+    System.out.println("CREATING SERVICE FROM JSON");
 		Service service = new Service(json.getString("name"), json.getString("url"));
 		service.id = json.getString("id");
-		service.status = json.getString("status");
-		service.lastChecked = json.getString("lastChecked");
+		service.status = json.getInteger("status");
+		service.lastChecked = json.getLong("lastChecked");
 		return service;
 	}
 
@@ -49,11 +50,11 @@ public class Service {
     return URL;
   }
 
-  public String getStatus(){
+  public int getStatus(){
     return status;
   }
 
-  public String getLastChecked(){
+  public long getLastChecked(){
     return lastChecked;
   }
 
@@ -61,11 +62,11 @@ public class Service {
     this.id = id;
   }
 
-  public void setStatus(String status){
+  public void setStatus(int status){
     this.status = status;
   }
 
-  public void setLastChecked(String lastChecked){
+  public void setLastChecked(long lastChecked){
     this.lastChecked = lastChecked;
   }
 

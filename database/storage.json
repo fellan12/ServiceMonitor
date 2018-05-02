@@ -4,18 +4,18 @@
     "name" : "google",
     "url" : "www.google.se",
     "status" : 200,
-    "lastChecked" : 1525293224064
+    "lastChecked" : 1525294848237
   }, {
     "id" : "d604c498-e9da-454f-8a15-a10e145g5353",
     "name" : "KRY",
     "url" : "www.kry.se",
     "status" : 301,
-    "lastChecked" : 1525293224077
+    "lastChecked" : 1525294848329
   }, {
-    "id" : "8913aa64-9363-4c5e-b42b-5402828c15a7",
-    "name" : "vertx.io",
-    "url" : "www.vertx.io",
-    "status" : 301,
-    "lastChecked" : 1525293224188
+    "id" : "a64ef663-8b44-44de-bf72-803366f2cd1b",
+    "name" : "test",
+    "url" : "http://start.vertx.io/",
+    "status" : 200,
+    "lastChecked" : 1525294848431
   } ]
 }

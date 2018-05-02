@@ -15,12 +15,9 @@ public class Service {
     this.id = UUID.randomUUID().toString();
     this.name = name;
     this.URL = url;
-    if(url.contains("://")) this.URL = url.split("://")[1];
-    if(URL.contains("/")) this.URL = URL.split("/")[0];
   }
 
   public static Service fromJson(JsonObject json) {
-    System.out.println("CREATING SERVICE FROM JSON");
 		Service service = new Service(json.getString("name"), json.getString("url"));
 		service.id = json.getString("id");
 		service.status = json.getInteger("status");
@@ -48,6 +45,26 @@ public class Service {
 
   public String getURL(){
     return URL;
+  }
+
+  public String getHost(){
+    String url = URL;
+    if(url.contains("://")) url = url.split("://")[1];
+    if(URL.contains("/")) url = url.split("/")[0];
+    return url;
+  }
+
+  public String getURI(){
+    String uri = "/";
+    String url = URL;
+		if (url.contains("://")) url = url.split("://")[1];
+		if (url.contains("/")) {
+			String[] uris = url.split("/");
+			for(int i = 1; i < uris.length; i++) {
+				uri += uris[i] + "/";
+			}
+		}
+		return uri;
   }
 
   public int getStatus(){

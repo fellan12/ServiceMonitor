@@ -28,11 +28,9 @@ public class StatusUpdate extends AbstractVerticle {
 
 	public void updateStatus(Service service) {
     HttpClient httpClient = vertx.createHttpClient();
-    httpClient.getNow(80, service.getURL(), "/", new Handler<HttpClientResponse>() {
+    httpClient.getNow(80, service.getHost(), service.getURI(), new Handler<HttpClientResponse>() {
       @Override
       public void handle(HttpClientResponse httpClientResponse) {
-          System.out.println("Response status code");
-          System.out.println(httpClientResponse.statusCode());
 					service.setStatus(httpClientResponse.statusCode());
 					service.setLastChecked(System.currentTimeMillis());
 					store.updateService(service);

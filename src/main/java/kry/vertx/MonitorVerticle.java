@@ -16,6 +16,8 @@ import io.vertx.ext.web.handler.StaticHandler;
 
 import java.util.*;
 
+import org.apache.commons.validator.routines.UrlValidator;
+
 
 public class MonitorVerticle extends AbstractVerticle {
 
@@ -28,8 +30,6 @@ public class MonitorVerticle extends AbstractVerticle {
 
   @Override
   public void start(Future<Void> fut) {
-
-    // createExampleData();
 
     // Create a router object.
     Router router = Router.router(vertx);
@@ -61,18 +61,24 @@ public class MonitorVerticle extends AbstractVerticle {
   private void add(RoutingContext routingContext) {
     System.out.println("ADDING");
     // Read the request's content and create an instance of Whisky.
+    String name = routingContext.getBodyAsJson().getString("name");
+    String url = routingContext.getBodyAsJson().getString("url");
 
-    final Service serv = new Service(routingContext.getBodyAsJson().getString("name"),
-                                      routingContext.getBodyAsJson().getString("url"));
+    if(verifyURL(url)){
+      final Service serv = new Service(name, url);
 
-    // Add it to the backend storage
-    store.addService(serv);
+      // Add it to the backend storage
+      store.addService(serv);
 
-    // Return the created service as JSON
-    routingContext.response()
-        .setStatusCode(201) //Created
-        .putHeader("content-type", "application/json; charset=utf-8")
-        .end(Json.encodePrettily(serv));
+      // Return the created service as JSON
+      routingContext.response()
+          .setStatusCode(201) //Created
+          .putHeader("content-type", "application/json; charset=utf-8")
+          .end(Json.encodePrettily(serv));
+    } else {
+      routingContext.response().setStatusCode(400).end(); //Bad Request
+    }
+
   }
 
   private void delete(RoutingContext routingContext) {
@@ -91,8 +97,6 @@ public class MonitorVerticle extends AbstractVerticle {
     System.out.println("GET ALL");
     List<Service> servs = store.getAllServices();
 
-    System.out.println(servs);
-
     JsonArray array = new JsonArray();
 		for (Service s : servs) {
 			array.add(s.toJson());
@@ -101,19 +105,21 @@ public class MonitorVerticle extends AbstractVerticle {
     JsonObject json = new JsonObject();
     json.put("services", array);
 
-    System.out.println(json);
-
     routingContext.response()
         .setStatusCode(200) // Ok
         .putHeader("content-type", "application/json; charset=utf-8")
         .end(Json.encodePrettily(json));
   }
 
-  private void createExampleData() {
-    Service kry = new Service("KRY", "www.kry.se");
-    services.put(kry.getId(), kry);
-    Service google = new Service("Google", "www.google.se");
-    services.put(google.getId(), google);
+  public boolean verifyURL(String url){
+    String[] schemes = {"http","https"};
+    UrlValidator urlValidator = new UrlValidator(schemes);
+    if (urlValidator.isValid(url)) {
+      System.out.println("URL IS VALID");
+       return true;
+    }
+    System.out.println("URL IS INVALID");
+    return false;
   }
 
 }

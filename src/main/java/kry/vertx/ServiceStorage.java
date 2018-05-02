@@ -37,22 +37,18 @@ class ServiceStorage {
 	}
 
   public List<Service> getAllServices() {
-    System.out.println("GETTING SERVICES FROM STORAGE");
     List<Service> services = new ArrayList<>();
 		JsonArray array = getStorage().getJsonArray("services");
 		for (int i = 0; i < array.size(); i++) {
 			services.add(Service.fromJson(array.getJsonObject(i)));
 		}
-    System.out.println("GOT ALL SERVICES FROM STORAGE");
   	return services;
   }
 
   public void removeService(String id){
-    System.out.println("REMOVE SERVICE: " + id);
     JsonArray array = getStorage().getJsonArray("services");
 		for (int i = 0; i < array.size(); i++) {
 			Service service = Service.fromJson(array.getJsonObject(i));
-      System.out.println(service.getId());
 			if (service.getId().equals(id)) {
 				array.remove(i);
         writeToStorage(new JsonObject().put("services", array));
@@ -62,7 +58,6 @@ class ServiceStorage {
   }
 
   public void addService(Service serv){
-    System.out.println("ADD SERVICE: " + serv.getURL());
     JsonArray array = getStorage().getJsonArray("services");
     array.add(serv.toJson());
     writeToStorage(new JsonObject().put("services", array));

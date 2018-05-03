@@ -7,7 +7,7 @@ import io.vertx.core.http.HttpClientResponse;
 
 
 /**
- * Verticle that updates the url accordingly.
+ * Verticle that updates the service accordingly.
  */
 public class StatusUpdate extends AbstractVerticle {
 
@@ -25,7 +25,12 @@ public class StatusUpdate extends AbstractVerticle {
 	    }
 	});
     }
-
+    
+    /**
+     * Update the status of a service
+     * 
+     * @param service - service to be updated
+     */
     public void updateStatus(Service service) {
 	HttpClient httpClient = vertx.createHttpClient();
 	httpClient.getNow(80, service.getHost(), service.getURI(), new Handler<HttpClientResponse>() {

@@ -14,7 +14,11 @@ import java.util.*;
 
 import org.apache.commons.validator.routines.UrlValidator;
 
-
+/**
+ * Monitor verticle handles the routing of requests
+ * 
+ * @author Felix De Silva
+ */
 public class MonitorVerticle extends AbstractVerticle {
 
     private ServiceStorage store;
@@ -34,14 +38,13 @@ public class MonitorVerticle extends AbstractVerticle {
 	router.route("/service*").handler(BodyHandler.create());
 	router.post("/service").handler(this::add);
 	router.delete("/service/:id").handler(this::delete);
+	router.get("/test").handler (body -> body.response ().end ("FOR TESTING"));
 
 	// Create the HTTP server and pass the "accept" method to the request handler.
 	vertx
 	.createHttpServer()
 	.requestHandler(router::accept)
 	.listen(
-	        // Retrieve the port from the configuration,
-	        // default to 8080.
 	        config().getInteger("http.port", 8080),
 	        result -> {
 	            if (result.succeeded()) {
@@ -52,7 +55,35 @@ public class MonitorVerticle extends AbstractVerticle {
 	        }
 		);
     }
+    
+    /**
+     * Get all services
+     * 
+     * @param routingContext - Context of the request
+     */
+    private void getAll(RoutingContext routingContext) {
+	System.out.println("GET ALL");
+	List<Service> servs = store.getAllServices();
 
+	JsonArray array = new JsonArray();
+	for (Service s : servs) {
+	    array.add(s.toJson());
+	}
+
+	JsonObject json = new JsonObject();
+	json.put("services", array);
+
+	routingContext.response()
+	.setStatusCode(200) // Ok
+	.putHeader("content-type", "application/json; charset=utf-8")
+	.end(Json.encodePrettily(json));
+    }
+    
+    /**
+     * Add a new service
+     * 
+     * @param routingContext - Context of the request
+     */
     private void add(RoutingContext routingContext) {
 	System.out.println("ADDING");
 	// Read the request's content and create an instance of Whisky.
@@ -75,7 +106,12 @@ public class MonitorVerticle extends AbstractVerticle {
 	}
 
     }
-
+    
+    /**
+     * Delete a service
+     * 
+     * @param routingContext - Context of the request
+     */
     private void delete(RoutingContext routingContext) {
 	System.out.println("DELETE");
 	String id = routingContext.request().getParam("id");
@@ -87,33 +123,19 @@ public class MonitorVerticle extends AbstractVerticle {
 	    routingContext.response().setStatusCode(204).end(); //No content
 	}
     }
-
-    private void getAll(RoutingContext routingContext) {
-	System.out.println("GET ALL");
-	List<Service> servs = store.getAllServices();
-
-	JsonArray array = new JsonArray();
-	for (Service s : servs) {
-	    array.add(s.toJson());
-	}
-
-	JsonObject json = new JsonObject();
-	json.put("services", array);
-
-	routingContext.response()
-	.setStatusCode(200) // Ok
-	.putHeader("content-type", "application/json; charset=utf-8")
-	.end(Json.encodePrettily(json));
-    }
-
+    
+    /**
+     * Verifies is a URL string is of proper format
+     * 
+     * @param url - URL string
+     * @return true if it is of proper format, false otherwise
+     */
     public boolean verifyURL(String url){
 	String[] schemes = {"http","https"};
 	UrlValidator urlValidator = new UrlValidator(schemes);
 	if (urlValidator.isValid(url)) {
-	    System.out.println("URL IS VALID");
 	    return true;
 	}
-	System.out.println("URL IS INVALID");
 	return false;
     }
 

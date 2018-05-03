@@ -10,13 +10,27 @@ import java.util.List;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+/**
+ * Class that handles storage
+ * 
+ * @author Felix De Silva
+ */
 class ServiceStorage {
     private Path storagePath;
 
     public ServiceStorage(String path){
 	this.storagePath = Paths.get(path);
+	if (!Files.exists(storagePath)) {
+	    writeToStorage(new JsonObject().put("services", new JsonArray()));
+	}
+
     }
 
+    /**
+     * Get json storage as JsonObject
+     * 
+     * @return JsonObject of json storage
+     */
     private JsonObject getStorage(){
 	String json = "";
 	try {
@@ -27,6 +41,11 @@ class ServiceStorage {
 	return new JsonObject(json);
     }
 
+    /**
+     * write JsonObject to storage
+     * 
+     * @param json - Object to be stored
+     */
     private void writeToStorage(JsonObject json) {
 	byte[] bytes = json.encodePrettily().getBytes();
 	try {
@@ -36,8 +55,26 @@ class ServiceStorage {
 	}
     }
 
+    /**
+     * write JsonObject to storage
+     * 
+     * @param json - Object to be stored
+     */
+    public void clearStorage() {
+	try {
+	    Files.deleteIfExists (storagePath);
+	    writeToStorage(new JsonObject().put("services", new JsonArray()));
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+    }
+
+    /**
+     * Get all services from storage
+     * 
+     * @return list of services from storage as Service objects
+     */
     public List<Service> getAllServices() {
-	System.out.println("GET ALL FROM STORAGE");
 	List<Service> services = new ArrayList<>();
 	JsonArray array = getStorage().getJsonArray("services");
 	for (int i = 0; i < array.size(); i++) {
@@ -46,6 +83,23 @@ class ServiceStorage {
 	return services;
     }
 
+    /**
+     * Add a service from storage
+     * 
+     * @param service - service to be added
+     */
+    public void addService(Service service){
+	JsonArray array = getStorage().getJsonArray("services");
+	array.add(service.toJson());
+	writeToStorage(new JsonObject().put("services", array));
+    }
+
+
+    /**
+     * Remove a service from storage
+     * 
+     * @param id - id of the storage to be removed
+     */
     public void removeService(String id){
 	JsonArray array = getStorage().getJsonArray("services");
 	for (int i = 0; i < array.size(); i++) {
@@ -58,12 +112,11 @@ class ServiceStorage {
 	}
     }
 
-    public void addService(Service serv){
-	JsonArray array = getStorage().getJsonArray("services");
-	array.add(serv.toJson());
-	writeToStorage(new JsonObject().put("services", array));
-    }
-
+    /**
+     * Update a service from storage
+     * 
+     * @param service - service to be updated
+     */
     public void updateService(Service service){
 	removeService(service.getId());
 	JsonArray array = getStorage().getJsonArray("services");

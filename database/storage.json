@@ -1,7 +1,7 @@
 {
   "services" : [ {
     "id" : "1bea6435-ebae-4459-88e2-7097f8018731",
-    "name" : "asd",
+    "name" : "Aftonbladet",
     "url" : "http://www.aftonbladet.se",
     "status" : "FAIL",
     "lastChecked" : 1525340755246

@@ -4,24 +4,24 @@
     "name" : "asd",
     "url" : "http://www.aftonbladet.se",
     "status" : "FAIL",
-    "lastChecked" : 1525295687361
+    "lastChecked" : 1525340755246
   }, {
-    "id" : "a3cce266-398f-4e72-adc6-af666d7fff6e",
+    "id" : "cf141417-f7d9-4f5b-b9e3-6055ef6b273a",
     "name" : "Google",
-    "url" : "https://www.google.se",
+    "url" : "http://www.google.se",
     "status" : "OK",
-    "lastChecked" : 1525295687392
+    "lastChecked" : 1525340755282
   }, {
     "id" : "8b0d8535-73ba-4224-a868-3cd3123b89d2",
     "name" : "Inbox",
     "url" : "https://inbox.google.com",
     "status" : "FAIL",
-    "lastChecked" : 1525295687404
+    "lastChecked" : 1525340755289
   }, {
     "id" : "fec2ca04-62d2-4d0d-8130-deacd4fcad59",
     "name" : "KRY",
     "url" : "https://www.kry.se/",
     "status" : "FAIL",
-    "lastChecked" : 1525295687458
+    "lastChecked" : 1525340755319
   } ]
 }

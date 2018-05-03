@@ -11,32 +11,32 @@ import io.vertx.core.http.HttpClientResponse;
  */
 public class StatusUpdate extends AbstractVerticle {
 
-	ServiceStorage store;
+    ServiceStorage store;
 
-	public StatusUpdate(ServiceStorage store) {
-		this.store = store;
-	}
+    public StatusUpdate(ServiceStorage store) {
+	this.store = store;
+    }
 
-	@Override
-	public void start() throws Exception {
-		vertx.setPeriodic(10000, handler -> {
-			for (Service service : store.getAllServices()) {
-				updateStatus(service);
-			}
-		});
-	}
+    @Override
+    public void start() throws Exception {
+	vertx.setPeriodic(10000, handler -> {
+	    for (Service service : store.getAllServices()) {
+		updateStatus(service);
+	    }
+	});
+    }
 
-	public void updateStatus(Service service) {
-    HttpClient httpClient = vertx.createHttpClient();
-    httpClient.getNow(80, service.getHost(), service.getURI(), new Handler<HttpClientResponse>() {
-      @Override
-      public void handle(HttpClientResponse httpClientResponse) {
-				System.out.println(service.getURL());
-				System.out.println("STATUSCODE: " +httpClientResponse.statusCode());
-				service.setStatus(httpClientResponse.statusCode() == 200 ? "OK" : "FAIL");
-				service.setLastChecked(System.currentTimeMillis());
-				store.updateService(service);
-      }
-    });
-	}
+    public void updateStatus(Service service) {
+	HttpClient httpClient = vertx.createHttpClient();
+	httpClient.getNow(80, service.getHost(), service.getURI(), new Handler<HttpClientResponse>() {
+	    @Override
+	    public void handle(HttpClientResponse httpClientResponse) {
+		System.out.println(service.getURL());
+		System.out.println("STATUSCODE: " +httpClientResponse.statusCode());
+		service.setStatus(httpClientResponse.statusCode() == 200 ? "OK" : "FAIL");
+		service.setLastChecked(System.currentTimeMillis());
+		store.updateService(service);
+	    }
+	});
+    }
 }

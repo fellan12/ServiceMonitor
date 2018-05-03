@@ -18,7 +18,7 @@ public class MainVerticle extends AbstractVerticle {
 
 	ServiceStorage store = new ServiceStorage(config().getString("storage.path", "database/storage.json"));
 	vertx.deployVerticle(new MonitorVerticle(store), options);
-	vertx.deployVerticle(new StatusUpdate(store), options);
+	vertx.deployVerticle(new StatusUpdateVerticle(store), options);
     }
 
 }

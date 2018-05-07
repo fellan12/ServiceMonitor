@@ -19,7 +19,7 @@ public class StatusUpdateVerticle extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-    	vertx.setPeriodic(10000, handler -> {
+    	vertx.setPeriodic(60000, handler -> {
     	    for (Service service : store.getAllServices()) {
     		      updateStatus(service);
     	    }

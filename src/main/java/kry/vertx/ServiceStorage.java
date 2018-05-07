@@ -12,7 +12,7 @@ import io.vertx.core.json.JsonObject;
 
 /**
  * Class that handles storage
- * 
+ *
  * @author Felix De Silva
  */
 class ServiceStorage {
@@ -28,7 +28,7 @@ class ServiceStorage {
 
     /**
      * Get json storage as JsonObject
-     * 
+     *
      * @return JsonObject of json storage
      */
     private JsonObject getStorage(){
@@ -43,35 +43,32 @@ class ServiceStorage {
 
     /**
      * write JsonObject to storage
-     * 
+     *
      * @param json - Object to be stored
      */
     private void writeToStorage(JsonObject json) {
-	byte[] bytes = json.encodePrettily().getBytes();
-	try {
-	    Files.write(storagePath, bytes);
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+    	byte[] bytes = json.encodePrettily().getBytes();
+    	try {
+    	    Files.write(storagePath, bytes);
+    	} catch (IOException e) {
+    	    e.printStackTrace();
+    	}
     }
 
     /**
-     * write JsonObject to storage
-     * 
-     * @param json - Object to be stored
+     * delete storage
      */
-    public void clearStorage() {
-	try {
-	    Files.deleteIfExists (storagePath);
-	    writeToStorage(new JsonObject().put("services", new JsonArray()));
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+    public void deleteStorage() {
+      try {
+          Files.deleteIfExists (storagePath);
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
     }
 
     /**
      * Get all services from storage
-     * 
+     *
      * @return list of services from storage as Service objects
      */
     public List<Service> getAllServices() {
@@ -85,7 +82,7 @@ class ServiceStorage {
 
     /**
      * Add a service from storage
-     * 
+     *
      * @param service - service to be added
      */
     public void addService(Service service){
@@ -97,7 +94,7 @@ class ServiceStorage {
 
     /**
      * Remove a service from storage
-     * 
+     *
      * @param id - id of the storage to be removed
      */
     public void removeService(String id){
@@ -114,7 +111,7 @@ class ServiceStorage {
 
     /**
      * Update a service from storage
-     * 
+     *
      * @param service - service to be updated
      */
     public void updateService(Service service){

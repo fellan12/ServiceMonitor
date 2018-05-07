@@ -17,7 +17,7 @@ public class ServiceStorageTest {
 
     @After
     public void down() {
-	store.clearStorage ();
+	     store.deleteStorage ();
     }
 
     @Test

@@ -30,15 +30,15 @@ public class MonitorVerticleTest {
 
     @After
     public void tearDown(TestContext context) {
-	vertx.close(context.asyncAssertSuccess());
-	store.clearStorage ();
+      vertx.close(context.asyncAssertSuccess());
+      store.deleteStorage ();
     }
 
     @Test
     public void testConnection(TestContext context) {
 	final Async async = context.async();
 	vertx.createHttpClient().getNow(8080,"localhost", "/test",response -> {
-	    response.handler(body -> {		
+	    response.handler(body -> {
 		context.assertTrue(body.toString().contains("FOR TESTING"));
 		async.complete();
 	    });
@@ -71,7 +71,7 @@ public class MonitorVerticleTest {
 	.handler(response -> {
 	    context.assertEquals(response.statusCode(), 201);
 	    context.assertTrue(response.headers().get("content-type").contains("application/json"));
-	    
+
 	    response.bodyHandler(body -> {
 		final JsonObject serv = body.toJsonObject ();
 		context.assertEquals(serv.getString ("name"), "test");
@@ -83,7 +83,7 @@ public class MonitorVerticleTest {
 	    });
 	}).write(json).end();
     }
-    
+
     @Test
     public void testDeleteService(TestContext context) {
 	Async async = context.async();
@@ -92,7 +92,7 @@ public class MonitorVerticleTest {
 	    context.assertEquals(response.statusCode(), 204);
 	    context.assertTrue(response.headers().entries ().size () == 1);   //Should only contain Content-Length=0
 	    response.bodyHandler(body -> {
-		context.assertEquals(body.toString (), "");		
+		context.assertEquals(body.toString (), "");
 	    });
 	    async.complete();
 	}).end();

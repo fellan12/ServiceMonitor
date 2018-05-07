@@ -1,9 +1,9 @@
 package kry.vertx;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.http.HttpClient;
 import io.vertx.core.Handler;
-import io.vertx.core.http.HttpClientResponse;
+import io.vertx.ext.web.client.WebClient;
+
 
 
 /**
@@ -19,29 +19,34 @@ public class StatusUpdateVerticle extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-	vertx.setPeriodic(10000, handler -> {
-	    for (Service service : store.getAllServices()) {
-		updateStatus(service);
-	    }
-	});
+    	vertx.setPeriodic(10000, handler -> {
+    	    for (Service service : store.getAllServices()) {
+    		      updateStatus(service);
+    	    }
+    	});
     }
-    
+
     /**
      * Update the status of a service
-     * 
+     *
      * @param service - service to be updated
      */
     public void updateStatus(Service service) {
-	HttpClient httpClient = vertx.createHttpClient();
-	httpClient.getNow(80, service.getHost(), service.getURI(), new Handler<HttpClientResponse>() {
-	    @Override
-	    public void handle(HttpClientResponse httpClientResponse) {
-		System.out.println(service.getURL());
-		System.out.println("STATUSCODE: " +httpClientResponse.statusCode());
-		service.setStatus(httpClientResponse.statusCode() == 200 ? "OK" : "FAIL");
-		service.setLastChecked(System.currentTimeMillis());
-		store.updateService(service);
-	    }
-	});
+      WebClient.create(vertx)
+        .get(service.getHost(), service.getURI())
+        .send(ar -> {
+          String updatedStatus = "FAIL";
+          if (ar.succeeded()) {
+            int code = ar.result().statusCode();
+            if (code == 200) {
+              updatedStatus = "OK";
+            }
+          } else {
+            System.err.println("[ERROR] "+ar.cause().getMessage());
+          }
+          service.setStatus(updatedStatus);
+          service.setLastChecked(System.currentTimeMillis());
+          store.updateService(service);
+        });
     }
 }

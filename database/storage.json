@@ -4,24 +4,24 @@
     "name" : "Google",
     "url" : "http://www.google.se",
     "status" : "OK",
-    "lastChecked" : 1525728446962
+    "lastChecked" : 1525785086934
   }, {
     "id" : "1bea6435-ebae-4459-88e2-7097f8018731",
     "name" : "Aftonbladet",
     "url" : "http://www.aftonbladet.se",
     "status" : "OK",
-    "lastChecked" : 1525728447140
+    "lastChecked" : 1525785087003
   }, {
     "id" : "fec2ca04-62d2-4d0d-8130-deacd4fcad59",
     "name" : "KRY",
     "url" : "https://www.kry.se/",
     "status" : "OK",
-    "lastChecked" : 1525728447837
+    "lastChecked" : 1525785087246
   }, {
     "id" : "f7de6d61-88fc-4e64-af49-13c175c9c8aa",
     "name" : "Git",
     "url" : "https://www.github.com/fellan12",
     "status" : "OK",
-    "lastChecked" : 1525728449734
+    "lastChecked" : 1525785088772
   } ]
 }

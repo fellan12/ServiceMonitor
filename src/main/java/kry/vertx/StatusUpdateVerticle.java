@@ -7,46 +7,47 @@ import io.vertx.ext.web.client.WebClient;
 
 
 /**
- * Verticle that updates the service accordingly.
- */
+* Verticle that updates the service accordingly.
+*/
 public class StatusUpdateVerticle extends AbstractVerticle {
 
-    ServiceStorage store;
+  ServiceStorage store;
 
-    public StatusUpdateVerticle(ServiceStorage store) {
-	this.store = store;
-    }
+  public StatusUpdateVerticle(ServiceStorage store) {
+    this.store = store;
+  }
 
-    @Override
-    public void start() throws Exception {
-    	vertx.setPeriodic(60000, handler -> {
-    	    for (Service service : store.getAllServices()) {
-    		      updateStatus(service);
-    	    }
-    	});
-    }
+  @Override
+  public void start() throws Exception {
+    vertx.setPeriodic(60000, handler -> {
+      System.out.println("Updating Services");
+      for (Service service : store.getAllServices()) {
+        updateStatus(service);
+      }
+    });
+  }
 
-    /**
-     * Update the status of a service
-     *
-     * @param service - service to be updated
-     */
-    public void updateStatus(Service service) {
-      WebClient.create(vertx)
-        .get(service.getHost(), service.getURI())
-        .send(ar -> {
-          String updatedStatus = "FAIL";
-          if (ar.succeeded()) {
-            int code = ar.result().statusCode();
-            if (code == 200) {
-              updatedStatus = "OK";
-            }
-          } else {
-            System.err.println("[ERROR] "+ar.cause().getMessage());
-          }
-          service.setStatus(updatedStatus);
-          service.setLastChecked(System.currentTimeMillis());
-          store.updateService(service);
-        });
-    }
+  /**
+  * Update the status of a service
+  *
+  * @param service - service to be updated
+  */
+  public void updateStatus(Service service) {
+    WebClient.create(vertx)
+    .get(service.getHost(), service.getURI())
+    .send(ar -> {
+      String updatedStatus = "FAIL";
+      if (ar.succeeded()) {
+        int code = ar.result().statusCode();
+        if (code == 200) {
+          updatedStatus = "OK";
+        }
+      } else {
+        System.err.println("[ERROR] "+ar.cause().getMessage());
+      }
+      service.setStatus(updatedStatus);
+      service.setLastChecked(System.currentTimeMillis());
+      store.updateService(service);
+    });
+  }
 }

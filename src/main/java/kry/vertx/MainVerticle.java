@@ -12,8 +12,6 @@ public class MainVerticle extends AbstractVerticle {
 
   @Override
   public void start(Future<Void> fut) {
-
-    //Set deployment options of config file
     DeploymentOptions options = new DeploymentOptions().setConfig(config());
 
     ServiceStorage store = new ServiceStorage(config().getString("storage.path", "database/storage.json"));

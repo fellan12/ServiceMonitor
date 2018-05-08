@@ -29,8 +29,6 @@ public class MonitorVerticle extends AbstractVerticle {
 
   @Override
   public void start(Future<Void> fut) {
-
-    // Create a router object.
     Router router = Router.router(vertx);
 
     router.route("/*").handler(StaticHandler.create("assets"));
@@ -40,7 +38,6 @@ public class MonitorVerticle extends AbstractVerticle {
     router.delete("/service/:id").handler(this::delete);
     router.get("/test").handler (body -> body.response ().end ("FOR TESTING"));
 
-    // Create the HTTP server and pass the "accept" method to the request handler.
     vertx
     .createHttpServer()
     .requestHandler(router::accept)

@@ -108,7 +108,7 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-config</artifactId>
-      <version>3.7.0</version>
+      <version>3.8.0</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->

@@ -1,3 +1,5 @@
+# THIS CODE WAS PART OF AN TECHNICAL INTERVIEW PROCESS
+
 # Service Monitor
 
 ### Description
